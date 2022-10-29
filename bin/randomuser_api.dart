@@ -1,14 +1,22 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 void main() {
-  Uri uri = Uri.parse('https://randomuser.me/api/');
-  print(uri.scheme);
-  // The path component.
-  print(uri.path);
-  // Set the query parameters.
-  uri = uri.replace(queryParameters: {'results': '10'});
-
-  // The host component.
-  print(uri.host);
-  print(uri);
+  Uri uri = Uri(
+    scheme: 'https',
+    host: 'randomuser.me',
+    path: '/api',
+  );
+  Map<String, String> queryParams = {
+    'results': '2',
+  };
+  http.get(uri).then((response) {
+    // Convert the response to JSON
+    Map json = jsonDecode(response.body);
+    // Get the results
+    List results = json['results'];
+    // print length of results
+    print(results.length);
+  });
 }
